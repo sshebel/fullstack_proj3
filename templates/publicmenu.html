@@ -1,0 +1,48 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<div class="row divider green">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner menu">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<h1>{{ restaurant.name }} 
+			<figure class="creator">
+				<img src="{{ creator.picture}}">
+				<figcaption>{{creator.name}}</figcaption>
+			</figure>
+			</h1>
+		</div>
+	</div>
+
+<div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+	<br>
+	<br>
+	{% if items !=[] %}	
+	    {% for j in range(numcourses) %}	
+		{% if items[j] !=[] %}	
+		    <h2>{{course_headers[j]}}</h2>
+		    {% for i in items[j] %}
+			<div class="row menu-item">
+				<div class="col-md-10"> <p class="weight-strong">{{i.name}}</p> </div>
+				<div class = "col-md-2"><p class="weight-strong">{{i.price}}</p> </div>
+				<div class="col-md-10"><p>{{i.description}}</p></div>
+				<div class = "col-md-2"> </div>
+			</div>
+		    {% endfor %}
+	  	{% endif %}
+	    {% endfor %}
+	{% endif %}
+{% endblock %}
