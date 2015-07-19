@@ -277,7 +277,33 @@ def disconnect():
         flash("You were not logged in")
         return redirect(url_for('showRestaurants'))
 
-       
+#JSON APIs to view Restaurant Information
+@app.route('/restaurant/<int:restaurant_id>/menu/JSON')
+def restaurantMenuJSON(restaurant_id):
+    try:
+        restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
+        items = session.query(MenuItem).filter_by(restaurant_id = restaurant_id).all()
+        return jsonify(MenuItems=[i.serialize for i in items])
+    except sqlalchemy.orm.exc.NoResultFound:
+        response = make_response(json.dumps("Invalid restaurant id"),500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/JSON')
+def menuItemJSON(restaurant_id, menu_id):
+    try:
+        Menu_Item = session.query(MenuItem).filter_by(id = menu_id, restaurant_id=restaurant_id).one()
+        return jsonify(Menu_Item = Menu_Item.serialize)
+    except sqlalchemy.orm.exc.NoResultFound:
+        response = make_response(json.dumps("Invalid restaurant or menu id"),500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+@app.route('/restaurant/JSON')
+def restaurantsJSON():
+    restaurants = session.query(Restaurant).all()
+    return jsonify(restaurants= [r.serialize for r in restaurants])
+           
 #Show all restaurants
 @app.route('/')
 @app.route('/restaurant/')
