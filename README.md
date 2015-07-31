@@ -15,7 +15,7 @@ API's are not included so they will not work. To obtain these credentials, go
 to the following websites and create a new project.  If you don't already have
 a google or facebook account you'll need to create one.
 
-https://developers.google.com/project
+https://console.developers.google.com/project
 
 https://developers.facebook.com/apps
 
