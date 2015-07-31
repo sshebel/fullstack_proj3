@@ -12,21 +12,7 @@ class User(Base):
     email = Column(String(100), nullable=False)
     picture = Column(String(100), nullable=True)
 
-class Restaurant(Base):
-    __tablename__ = 'restaurant'
-   
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-    user_id = Column(Integer,ForeignKey('user.id'))
-    user = relationship(User)
 
-    @property
-    def serialize(self):
-       """Return object data in easily serializeable format"""
-       return {
-           'name'         : self.name,
-           'id'           : self.id,
-       }
  
 class MenuItem(Base):
     __tablename__ = 'menu_item'
@@ -38,7 +24,6 @@ class MenuItem(Base):
     price = Column(String(8))
     course = Column(String(250))
     restaurant_id = Column(Integer,ForeignKey('restaurant.id'))
-    restaurant = relationship(Restaurant)
     user_id = Column(Integer,ForeignKey('user.id'))
     user = relationship(User)
 
@@ -54,7 +39,22 @@ class MenuItem(Base):
            'course'         : self.course,
        }
 
+class Restaurant(Base):
+    __tablename__ = 'restaurant'
+   
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    menu_item = relationship(MenuItem,single_parent=True,cascade="all,delete-orphan",backref="restaurant")
+    user_id = Column(Integer,ForeignKey('user.id'))
+    user = relationship(User)
 
+    @property
+    def serialize(self):
+       """Return object data in easily serializeable format"""
+       return {
+           'name'         : self.name,
+           'id'           : self.id,
+       }
 
 engine = create_engine('sqlite:///restaurantmenuwithusers.db')
  

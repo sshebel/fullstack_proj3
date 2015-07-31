@@ -369,12 +369,14 @@ def deleteRestaurant(restaurant_id):
   if 'email' not in login_session:
       return redirect(url_for('login'))
   restaurantToDelete = session.query(Restaurant).filter_by(id = restaurant_id).one()
+  itemsToDelete = session.query(MenuItem).filter_by(id=restaurant_id).all()
   user=getUserInfo(restaurantToDelete.user_id)
   if login_session['email'] != user.email:
       flash('Only %s can delete this restaurant'%user.name)
       return redirect(url_for('showMenu',restaurant_id=restaurant_id))
   if request.method == 'POST':
       if 'submit' in request.form:
+        # Associated menu items will be deleted based on cascade setting 
         session.delete(restaurantToDelete)
         flash('%s Successfully Deleted' % restaurantToDelete.name)
         session.commit()
