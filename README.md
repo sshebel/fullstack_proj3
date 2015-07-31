@@ -16,6 +16,7 @@ to the following websites and create a new project.  If you don't already have
 a google or facebook account you'll need to create one.
 
 https://developers.google.com/project
+
 https://developers.facebook.com/apps
 
 Follow the instructions to get a client/app id and secret key.  For google,
@@ -25,7 +26,7 @@ For facebook, copy the app id and secret into the fb_client_secrets.json file
 replacing "ID HERE" and "SECRET HERE"
 
 
-The following components must be installed to run: 
+The following components must be installed to run. Note that modifications will be required to run with the latest version of flask. 
 	python-psycopg2==2.4.5
 	python-sqlalchemy==0.8.4
 	werkzeug=0.8.3
